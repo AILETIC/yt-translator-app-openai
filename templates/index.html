@@ -1,0 +1,51 @@
+<html>
+    <head>
+
+    </head>
+    <script>
+        function translate_text(){
+            let text1 = document.getElementById("text1").value;
+            let language1 = document.getElementById("language-select").value;
+            let output = document.getElementById("text2");
+
+            fetch("/api/translate/", {
+                "method": "POST",
+                "headers": {"Content-Type":"application/json"},
+                "body": JSON.stringify({"input": text1, "target": language1})
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("data", data);
+                output.value = data["data"]["text"]
+            })
+        }
+    </script>
+    <body>
+        <div style="display: flex;">
+            <div style="flex: 1 1 100%;">
+                <div>
+                    <select name="" id="inp-select">
+                        <option value="auto">auto</option>
+                    </select>
+                </div>
+                <textarea name="" id="text1" cols="30" rows="10" style="width: 100%;"></textarea>
+            </div>
+            <div style="flex: 1 1 100%;">
+                <div>
+                    <select name="" id="language-select">
+                        <option value="english">english</option>
+                        <option value="german">german</option>
+                        <option value="french">french</option>
+                        <option value="italian">italian</option>
+                        <option value="spanish">spanish</option>
+                    </select>
+                </div>
+                <textarea name="" id="text2" cols="30" rows="10" style="width: 100%;"></textarea>
+            </div>
+        </div>
+        
+        <div>
+            <button onclick="translate_text()">translate</button>
+        </div>
+    </body>
+</html>
